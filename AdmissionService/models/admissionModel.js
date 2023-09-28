@@ -38,7 +38,7 @@ class admissionFile {
 const file1 = new admissionFile('user1@example.com','Computer Science','Undergraduate','Spring')
 var files = [file1]
 
-modeule.exports = {
+module.exports = {
 
     createAdmission: async(studentEmail, major, degree, commencement)=>{
         // Validate the user before creating the admissionFile object
@@ -60,6 +60,10 @@ modeule.exports = {
     findAdmission:(id)=>{
         return files.find((file)=> file.getAdmissionId() = id)
     },
+    findByEmail:(email)=>{
+        return files.find((file)=> file.getStudentEmail() = email)
+    }
+    ,
     updateAdmission:async(id, major, degree, commencement)=>{
         const admission = await findAdmission(id);
         if(!admission){

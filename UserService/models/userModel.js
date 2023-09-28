@@ -1,10 +1,10 @@
 class User {
   static nextId = 1; // Initialize the next available ID as 1
-  constructor(email, password, isEnrolled) {
+  constructor(email, password, isAdmitted) {
     this.id = User.nextId++
     this.email = email;
     this.password = password;
-    this.isEnrolled = isEnrolled;
+    this.isAdmitted = isAdmitted;
   }
   // Getter method to retrieve user's ID
   getId() {
@@ -19,12 +19,12 @@ class User {
     return this.password;
   }
   // Getter method to check if the user is enrolled
-  isEnrolled() {
-    return this.isEnrolled;
+  isAdmitted() {
+    return this.isAdmitted;
   }
   // Setter method to update the enrolled status
-  setEnrolledStatus(isEnrolled) {
-    this.isEnrolled = isEnrolled;
+  setEnrolledStatus(isAdmitted) {
+    this.isAdmitted = isAdmitted;
   }
 }
 const user1 = new User('user1@example.com', 'hashedPassword1', true);

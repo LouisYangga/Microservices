@@ -44,6 +44,7 @@ module.exports = {
         // Validate the user before creating the admissionFile object
         try {
             const userData = await utils.validateUser(studentEmail);
+            console.log(userData)
             if (userData) {
             // User is valid, create the admissionFile object
             const admission = new admissionFile(studentEmail, major, degree, commencement);

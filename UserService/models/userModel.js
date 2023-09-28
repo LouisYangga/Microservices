@@ -22,6 +22,9 @@ class User {
   isAdmitted() {
     return this.isAdmitted;
   }
+  setAdmittance(status){
+    this.isAdmitted = status
+  }
   // Setter method to update the enrolled status
   setEnrolledStatus(isAdmitted) {
     this.isAdmitted = isAdmitted;
@@ -53,5 +56,15 @@ var users = [user1,user2];
     deleteByEmail: (emailToDelete)=>{
       const updated = users.filter((user)=> user.email !== emailToDelete );
       users = updated
+    },
+    setAdmittance: (email, admittance) => {
+      const user = users.find((user) => user.getEmail() === email);
+      if (user) {
+        user.setAdmittance(admittance);
+        // Also update the users array to reflect the change
+        user.isAdmitted = admittance;
+      } else {
+        throw new Error('User not found');
+      }
     }
   };

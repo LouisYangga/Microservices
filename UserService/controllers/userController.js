@@ -47,7 +47,20 @@ const userController = {
         const{email} = req.body;
         await userModel.deleteByEmail(email)
         res.status(200).json({message:"User deleted"})
-    })
+    }),
+    setAdmittance: async (req, res) => {
+        const { admittance, email } = req.body;
+        if (typeof admittance !== "boolean") {
+          res.status(400).json({ message: "Invalid status" });
+        } else {
+          try {
+            await userModel.setAdmittance(email, admittance);
+            res.status(200).json({ message: "Status Updated" });
+          } catch (error) {
+            res.status(500).json({ message: "Internal Server Error" });
+          }
+        }
+      }
 }
 
 module.exports = userController;

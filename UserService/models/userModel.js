@@ -41,7 +41,11 @@ var users = [user1,user2];
     findById: (id) => {
       return users.find((user) => user.id === id);
     },
-    createUser: (email, password) => {
+    createUser: async(email, password) => {
+      const exist = await this.findByEmail(email)
+      if(exist){
+        throw new Error('User exists');
+      }
       const newUser = new User(email,password,false) //not enrolled as default
       users.push(newUser);
       return newUser;

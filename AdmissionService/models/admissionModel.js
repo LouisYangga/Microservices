@@ -2,7 +2,7 @@ const utils = require('../../Shared/utils')
 class admissionFile {
     static admissionId = 1001
     constructor(studentEmail, major, degree, commencement){
-        this.admissionId = admissionFile.admissionId++
+        this.admissionId = admissionFile.admissionId++;
         this.studentEmail = studentEmail;
         this.major = major
         this.degree = degree
@@ -58,10 +58,11 @@ module.exports = {
         }
     },
     findAdmission:(id)=>{
-        return files.find((file)=> file.getAdmissionId() = id)
+        const file = files.find((file)=> file.getAdmissionId() === parseInt(id))
+        return file
     },
     findByEmail:(email)=>{
-        return files.find((file)=> file.getStudentEmail() = email)
+        return files.find((file)=> file.getStudentEmail() === email)
     }
     ,
     updateAdmission:async(id, major, degree, commencement)=>{

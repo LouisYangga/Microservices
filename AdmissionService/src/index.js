@@ -6,7 +6,7 @@ const config= require('../config/config')
 const port = config.port;
 const routes = require('../routes/routes');
 app.use(express.json());
-app.use('/api', routes)
+app.use('/admission', routes)
 app.get('/', (req, res) => {
     res.json({ message: ' AdmissionService Server side' });
 })

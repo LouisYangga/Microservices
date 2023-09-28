@@ -18,13 +18,16 @@ const userController = {
             next(error);
           }
     }),
-    findByEmail: (async(req,res)=>{
+    findByEmail: (async(req,res,next)=>{
         const {email} = req.body;
         const user = await userModel.findByEmail(email);
         if(user){
             res.status(200).json(user);
+            console.log(user)
         }else{
-            res.status(400).json({message:"User Not Found"})
+            const error = new Error('User Not Found');
+            error.status = 404; // Set the HTTP status code to 404 (Not Found)
+            next(error); // Pass the error to the error handling middleware
         }
     }),
     createUser: (async(req,res)=>{

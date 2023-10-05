@@ -50,7 +50,7 @@ module.exports = {
             const admission = new admissionFile(studentEmail, major, degree, commencement);
             files.push(admission)
             // Continue with your logic using the admission object
-            console.log('Admission created:', admission);
+            return admission
             } else {
                 throw new Error('User not found')
             }
@@ -76,8 +76,8 @@ module.exports = {
             admission.setCommencement(commencement)
         }
     },
-    deleteAdmission:(admissionToDelete)=>{
-        const updated = files.filter((file)=> file.admissionId !==admissionToDelete);
+    deleteAdmission:(admissionIDToDelete)=>{
+        const updated = files.filter((file)=> file.admissionId !==admissionIDToDelete);
         files = updated
     } 
 

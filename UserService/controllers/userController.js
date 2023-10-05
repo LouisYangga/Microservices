@@ -34,7 +34,8 @@ const userController = {
         const{email, password} = req.body;
         const exist = await userModel.findByEmail(email);
         if(!exist){
-            const user = userModel.createUser(email,password)
+            const user = await userModel.createUser(email,password)
+            console.log(email + ' user created')
             res.status(200).json(user);
         }else{
             res.status(400).json({message:"Email already Exists"})

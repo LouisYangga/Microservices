@@ -45,7 +45,7 @@ var users = [user1,user2];
       return users.find((user) => user.id === id);
     },
     createUser: async(email, password) => {
-      const exist = await this.findByEmail(email)
+      const exist = await users.find((user) => user.getEmail() === email);
       if(exist){
         throw new Error('User exists');
       }

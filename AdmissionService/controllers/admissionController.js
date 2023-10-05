@@ -7,7 +7,7 @@ const admissionController = {
           const { studentEmail, major, degree, commencement } = req.body;
       
           // Validate user and check if admission exists
-          const student = await utils.validateUser(studentEmail);
+          await utils.validateUser(studentEmail);
           const admitted = await admissionModel.findByEmail(studentEmail);
       
           if (admitted) {
@@ -21,7 +21,8 @@ const admissionController = {
             degree,
             commencement
           );
-      
+          console.log('Admission created:', admission);
+          await utils.setUserAdmittance(studentEmail,true)
           res.status(201).json(admission); // Use 201 status for resource creation
         } catch (error) {
           console.error('Error creating admission:', error);
@@ -37,7 +38,13 @@ const admissionController = {
             res.status(400).json({message: 'Admission not found'})
         }
 
+    },
+    deleteAdmission: async (req, res)=>{
+        const id = req.params.id
+        admissionModel.deleteAdmission(id)
+        res.status(200).json({message: 'Admission deleted'})
     }
+
       
 }
 

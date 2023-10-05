@@ -63,7 +63,8 @@ module.exports = {
         return file
     },
     findByEmail:(email)=>{
-        return files.find((file)=> file.getStudentEmail() === email)
+        const file=  files.find((file)=> file.getStudentEmail() === email)
+        return file
     }
     ,
     updateAdmission:async(id, major, degree, commencement)=>{
@@ -76,8 +77,9 @@ module.exports = {
             admission.setCommencement(commencement)
         }
     },
-    deleteAdmission:(admissionIDToDelete)=>{
-        const updated = files.filter((file)=> file.admissionId !==admissionIDToDelete);
+    deleteAdmission:(studentEmail)=>{
+        const updated = files.filter((file)=> file.studentEmail !==studentEmail);
+        console.log(updated)
         files = updated
     } 
 

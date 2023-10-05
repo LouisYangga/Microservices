@@ -39,13 +39,21 @@ const admissionController = {
         }
 
     },
+    findByEmail: async(req,res)=>{
+      const email = req.body.email; 
+      const admission = await admissionModel.findByEmail(email)
+      if(admission){
+        res.status(200).json(admission)
+      }else{
+          res.status(400).json({message: 'Admission not found'})
+      }
+    },
     deleteAdmission: async (req, res)=>{
-        const id = req.params.id
-        admissionModel.deleteAdmission(id)
+        const {email} = req.body;
+        admissionModel.deleteAdmission(email)
+        await utils.setUserAdmittance(email,false)
         res.status(200).json({message: 'Admission deleted'})
     }
-
-      
 }
 
 module.exports = admissionController;

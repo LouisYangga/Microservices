@@ -8,9 +8,9 @@ const routes = require('../routes/routes');
 app.use(express.json());
 app.use('/admission', routes)
 app.get('/', (req, res) => {
-    res.json({ message: ' AdmissionService Server side' });
+    res.json({ message: ' Enrollment Server side' });
 })
 
 app.listen(port, () => {
-    console.log('Admission Server start');
+    console.log('Enrollment Server start');
 })

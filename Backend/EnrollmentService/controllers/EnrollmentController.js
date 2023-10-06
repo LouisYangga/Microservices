@@ -1,5 +1,5 @@
 const utils = require('../../Shared/utils')
-const admissionModel = require('../models/admissionModel')
+const admissionModel = require('../models/EnrollmentModel')
 const admissionController = {
 
     createAdmission: async (req, res) => {
@@ -10,7 +10,7 @@ const admissionController = {
           await utils.validateUser(studentEmail);
           const admitted = await admissionModel.findByEmail(studentEmail);
       
-          if (admitted) { 
+          if (admitted) {
             throw new Error('Admission already exists');
           }
       

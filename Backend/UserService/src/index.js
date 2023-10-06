@@ -8,9 +8,9 @@ const routes = require('../routes/routes');
 app.use(express.json());
 app.use('/user', routes)
 app.get('/', (req, res) => {
-    res.json({ message: 'Server side' });
+    res.json({ message: 'User Server side' });
 })
 
 app.listen(port, () => {
-    console.log('Server start');
+    console.log('User Server start');
 })

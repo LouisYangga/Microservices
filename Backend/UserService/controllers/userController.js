@@ -44,6 +44,14 @@ const userController = {
     getAllUser: (async(req,res)=>{
         res.status(200).json(userModel.getAll())
     }),
+    getByID: (async (req,res)=>{
+      const id = req.params.id
+      const user = await userModel.findById(parseInt(id))
+      if(!user){
+        res.status(400).json({message:"User Not Found"})
+      }
+      res.status(200).json(user)
+    }),
     deleteUser: (async(req,res)=>{
         const{email} = req.body;
         await userModel.deleteByEmail(email)

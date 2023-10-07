@@ -7,6 +7,7 @@ router.post('/login',userController.loginUser)
 router.post('/register',userController.createUser)
 router.post('/find',userController.findByEmail)
 router.get('/all',userController.getAllUser)
+router.get('/:id',userController.getByID)
 router.delete('/delete', userController.deleteUser)
 router.put('/admit',userController.setAdmittance)
 module.exports = router;

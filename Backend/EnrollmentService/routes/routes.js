@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router()
 
-const admissionController = require('../controllers/admissionController')
+const enrollmentController = require('../controllers/EnrollmentController')
 
-router.post('/create',admissionController.createAdmission)
-router.post('/findEmail',admissionController.findByEmail)
-router.get('/find/:id',admissionController.findById)
-router.delete('/delete', admissionController.deleteAdmission)
+router.get('/:subjectCode',enrollmentController.findSubject)
+router.post('/create',enrollmentController.createSubject)
+
 module.exports = router;

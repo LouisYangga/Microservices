@@ -1,5 +1,4 @@
 const axios = require('axios')
-const { response } = require('express')
 const utils = {
 
     validateUser: async (email) => {

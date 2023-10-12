@@ -1,0 +1,27 @@
+services:
+  user_service:
+    build: ./UserService
+    volumes:
+      - ./UserService:/app
+    command: ["npm", "start"]
+    ports:
+      - "3000:3000"
+
+
+  admission_service:
+    build: 
+      context: ./AdmissionService
+      dockerfile: ./AdmissionService/Dockerfile.admission
+    volumes:
+      - ./AdmissionService:/app
+    command: ["npm", "start"]
+    ports:
+      - "3001:3001"
+
+
+  # enrollment_service:
+  #   build: ./EnrollmentService
+  #   volumes:
+  #     - ./EnrollmentService:/app
+  #   command: ["npm", "start"]
+

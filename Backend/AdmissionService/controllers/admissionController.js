@@ -21,7 +21,6 @@ const admissionController = {
             degree,
             commencement
           );
-          console.log('Admission created:', admission);
           await utils.setUserAdmittance(studentEmail,true)
           res.status(201).json(admission); // Use 201 status for resource creation
         } catch (error) {

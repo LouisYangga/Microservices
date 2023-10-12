@@ -1,59 +1,44 @@
-const utils = require('../../Shared/utils')
-const admissionModel = require('../models/EnrollmentModel')
+const utils = require('../../Shared/utils');
+const subjectModel = require('../models/EnrollmentModel')
+const axios = require("axios")
 const admissionController = {
 
-    createAdmission: async (req, res) => {
-        try {
-          const { studentEmail, major, degree, commencement } = req.body;
-      
-          // Validate user and check if admission exists
-          await utils.validateUser(studentEmail);
-          const admitted = await admissionModel.findByEmail(studentEmail);
-      
-          if (admitted) {
-            throw new Error('Admission already exists');
-          }
-      
-          // Create admission
-          const admission = await admissionModel.createAdmission(
-            studentEmail,
-            major,
-            degree,
-            commencement
-          );
-          console.log('Admission created:', admission);
-          await utils.setUserAdmittance(studentEmail,true)
-          res.status(201).json(admission); // Use 201 status for resource creation
-        } catch (error) {
-          console.error('Error creating admission:', error);
-          res.status(400).json({ message: error.message }); // Return the custom error message
-        }
-      },
-    findById: async (req,res)=>{
-        const id = req.params.id
-        const admission = await admissionModel.findAdmission(id)
-        if(admission){
-            res.status(200).json(admission)
-        }else{
-            res.status(400).json({message: 'Admission not found'})
-        }
+  createSubject:async (req,res)=>{
+    const {subjectCode, subjectName, commencement} = req.body;
 
-    },
-    findByEmail: async(req,res)=>{
-      const email = req.body.email; 
-      const admission = await admissionModel.findByEmail(email)
-      if(admission){
-        res.status(200).json(admission)
-      }else{
-          res.status(400).json({message: 'Admission not found'})
-      }
-    },
-    deleteAdmission: async (req, res)=>{
-        const {email} = req.body;
-        admissionModel.deleteAdmission(email)
-        await utils.setUserAdmittance(email,false)
-        res.status(200).json({message: 'Admission deleted'})
+    try {
+      const subject = await subjectModel.createSubject(subjectCode,subjectName,commencement);
+      res.status(201).json(subject)
+    } catch (error) {
+      res.status(400).json({ message: error.message }); // Return the custom error message
     }
+  },
+  findSubject:async(req,res)=>{
+    const code = req.params.subjectCode;
+    const subject = await subjectModel.findSubject(code)
+    if(!subject){
+      res.status(400).json({message:"Subject Not Found"})
+    }
+    res.status(200).json(subject)
+  },
+  getStudents:async(req,res)=>{
+    const code = req.params.subjectCode;
+    const subject = await subjectModel.findSubject(code)
+    if(!subject){
+      res.status(400).json({message:"Subject Not Found"})
+    }
+    const students = await subject.getStudents();
+    res.status(200).json(students)
+  },
+  enrollStudent:async(req,res)=>{
+    const email = req.body;
+    const body = { email:email};
+    const response = await axios.post('http://localhost:3002/admission/findEmail', body);
+    response.data; // Return the response data here
+
+
+  }
+
 }
 
 module.exports = admissionController;

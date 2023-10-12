@@ -1,84 +1,81 @@
 const utils = require('../../Shared/utils')
-class admissionFile {
-    constructor(studentID, major, degree, commencement){
-        this.studentEmail = studentEmail;
-        this.major = major
-        this.degree = degree
+class Subject {
+    constructor(subjectCode, subjectName, commencement, students){
+        this.subjectCode = subjectCode;
+        this.subjectName = subjectName
         this.commencement = commencement
+        this.students = students
     }
     // Getter and setter methods 
-    getAdmissionId(){
-        return this.admissionId;
+    getSubjectCode(){
+        return this.subjectCode
     }
-    getStudentEmail(){
-        return this.studentEmail;
+    getSubjectName(){
+        return this.subjectName
     }
-    getMajor() {
-        return this.major;
+    getCommencement(){
+        return this.commencement
     }
-    setMajor(newMajor) {
-        this.major = newMajor;
+    getStudents(){
+        return this.students
     }
-    getDegree() {
-        return this.degree;
+    setCommencement(commencement){
+        this.commencement = commencement;
     }
-    setDegree(newDegree) {
-        this.degree = newDegree;
-    }
-    getCommencement() {
-        return this.commencement;
-    }
-
-    setCommencement(newCommencement) {
-        this.commencement = newCommencement;
+    addStudent(studentEmail){
+        this.students.push(studentEmail);
     }
 }
-const file1 = new admissionFile('user1@example.com','Computer Science','Undergraduate','Spring')
-var files = [file1]
+const subject1 = new Subject('CS123','Programming','Spring',["user1@example.com","user2@example.com"])
+var subjects = [subject1]
+
+function findSubject(subjectCode){
+    const subject = subjects.find((subject)=> subject.getSubjectCode() === subjectCode)
+    return subject
+}
 
 module.exports = {
-
-    createAdmission: async(studentEmail, major, degree, commencement)=>{
+    findSubject,
+    createSubject: async(subjectCode, subjectName, commencement)=>{
         // Validate the user before creating the admissionFile object
-        try {
-            const userData = await utils.validateUser(studentEmail);
-            console.log(userData)
-            if (userData) {
-            // User is valid, create the admissionFile object
-            const admission = new admissionFile(studentEmail, major, degree, commencement);
-            files.push(admission)
-            // Continue with your logic using the admission object
-            return admission
-            } else {
-                throw new Error('User not found')
-            }
-        } catch (error) {
-            console.error('User validation error:', error);
+        var exists = await findSubject(subjectCode);
+        if(exists){
+            throw new Error('Subject exists')
+        }else{
+            subject = new Subject(subjectCode,subjectName,commencement,[])
+            subjects.push(subject)
+            return subject
         }
+        
     },
-    findAdmission:(id)=>{
-        const file = files.find((file)=> file.getAdmissionId() === parseInt(id))
-        return file
-    },
-    findByEmail:(email)=>{
-        const file=  files.find((file)=> file.getStudentEmail() === email)
-        return file
+    findByName:(subjectName)=>{
+        const subject=  subjects.find((subject)=> subject.getSubjectName() === subjectName)
+        return subject
     }
     ,
-    updateAdmission:async(id, major, degree, commencement)=>{
-        const admission = await findAdmission(id);
-        if(!admission){
-            throw new Error('Admission File Not Found')
-        }else{
-            admission.setMajor(major)
-            admission.setDegree(degree)
-            admission.setCommencement(commencement)
-        }
+    getStudents:async (subjectCode)=>{
+        const subject = await findSubject(subjectCode)
+        return subject.getStudents()
     },
-    deleteAdmission:(studentEmail)=>{
-        const updated = files.filter((file)=> file.studentEmail !==studentEmail);
-        console.log(updated)
-        files = updated
-    } 
+    enrollStudent:async(students)=>{
+        var subject = await findSubject(subjectCode);
+        subject.addStudent(students)
+
+    }
+    // updateAdmission:async(id, major, degree, commencement)=>{
+    //     const admission = await findAdmission(id);
+    //     if(!admission){
+    //         throw new Error('Admission File Not Found')
+    //     }else{
+    //         admission.setMajor(major)
+    //         admission.setDegree(degree)
+    //         admission.setCommencement(commencement)
+    //     }
+    // },
+    // deleteAdmission:(studentEmail)=>{
+    //     const updated = files.filter((file)=> file.studentEmail !==studentEmail);
+    //     console.log(updated)
+    //     files = updated
+    // } 
 
 }

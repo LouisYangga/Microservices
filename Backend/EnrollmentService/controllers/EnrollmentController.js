@@ -37,7 +37,6 @@ const admissionController = {
       if(student.isAdmitted){
         subjectModel.enrollStudent(student.email,subjectCode)
         const response = await axios.post('http://localhost:3000/user/addSubject', req.body);
-        console.log(response.data)
         if(response.status === 400){
           throw new Error ("Unable to enroll student")
         }

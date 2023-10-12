@@ -69,15 +69,22 @@ const userController = {
           }
         }
     },
-    addSubject: async(req,res)=>{
-      const {email, subjectCode} = req.body;
+    addSubject: async (req, res) => {
+      const { email, subjectCode } = req.body;
       try {
-        await userModel.addSubject(subjectCode,email);
-        res.status(200).json(await userModel.findByEmail(email))
+        try {
+          await userModel.addSubject(subjectCode, email);
+        } catch (error) {
+          throw error
+        }
+        // If execution reaches this point, it means the enrollment was successful
+        res.status(200).json(await userModel.findByEmail(email));
       } catch (error) {
-        res.status(400).json({message: error.message})
+        // Handle errors from the first function
+        res.status(400).json({ message: error.message });
       }
     }
+    
 }
 
 module.exports = userController;

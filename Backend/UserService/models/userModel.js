@@ -89,7 +89,7 @@ function subjectEnrolled(email, subjectCode){
     addSubject: async (subjectCode,email)=>{
       const user = await findByEmail(email)
       if(user){
-        if(await subjectEnrolled(email,subjectCode)){
+        if(await subjectEnrolled(email,subjectCode)===true){
           throw new Error ("Already Enrolled")
         }else{
           await user.addSubject(subjectCode);

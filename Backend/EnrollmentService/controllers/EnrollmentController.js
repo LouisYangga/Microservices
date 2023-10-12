@@ -31,11 +31,19 @@ const admissionController = {
     res.status(200).json(students)
   },
   enrollStudent:async(req,res)=>{
-    const email = req.body;
-    const body = { email:email};
-    const response = await axios.post('http://localhost:3002/admission/findEmail', body);
-    response.data; // Return the response data here
-
+    try {
+      const {email,subjectCode} = req.body;
+      const student = await utils.validateUser(email)
+      if(student.isAdmitted){
+        subjectModel.enrollStudent(student.email,subjectCode)
+        res.status(200).json({meesage: "Student enrolled successfully"})
+      }else{  
+        throw new Error ("Unable to enroll student")
+      }
+      
+    } catch (error) {
+      res.status(400).json({ message: error.message }); // Return the custom error message
+    }
 
   }
 

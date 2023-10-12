@@ -27,7 +27,9 @@ class Subject {
     }
 }
 const subject1 = new Subject('CS123','Programming','Spring',["user1@example.com","user2@example.com"])
-var subjects = [subject1]
+const subject2 = new Subject('IT123','Website','Spring',["user1@example.com"])
+
+var subjects = [subject1,subject2]
 
 function findSubject(subjectCode){
     const subject = subjects.find((subject)=> subject.getSubjectCode() === subjectCode)
@@ -57,9 +59,12 @@ module.exports = {
         const subject = await findSubject(subjectCode)
         return subject.getStudents()
     },
-    enrollStudent:async(students)=>{
+    enrollStudent:async(studentsEmail,subjectCode)=>{
         var subject = await findSubject(subjectCode);
-        subject.addStudent(students)
+        if(!subject){
+            throw new Error ("Unable to find Subject")
+        }
+        subject.addStudent(studentsEmail)
 
     }
     // updateAdmission:async(id, major, degree, commencement)=>{

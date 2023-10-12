@@ -5,6 +5,7 @@ class User {
     this.email = email;
     this.password = password;
     this.isAdmitted = isAdmitted;
+    this.enrolledSubject = [];
   }
   // Getter method to retrieve user's ID
   getId() {

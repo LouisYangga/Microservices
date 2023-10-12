@@ -26,8 +26,8 @@ class Subject {
         this.students.push(studentEmail);
     }
 }
-const subject1 = new Subject('CS123','Programming','Spring',["user1@example.com","user2@example.com"])
-const subject2 = new Subject('IT123','Website','Spring',["user1@example.com"])
+const subject1 = new Subject('CS123','Programming','Spring',[])
+const subject2 = new Subject('IT123','Website','Spring',[])
 
 var subjects = [subject1,subject2]
 

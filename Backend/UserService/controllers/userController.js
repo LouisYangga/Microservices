@@ -23,7 +23,6 @@ const userController = {
         const user = await userModel.findByEmail(email);
         if(user){
             res.status(200).json(user);
-            console.log(user)
         }else{
             const error = new Error('User Not Found');
             error.status = 404; // Set the HTTP status code to 404 (Not Found)
@@ -69,7 +68,16 @@ const userController = {
             res.status(500).json({ message: "Internal Server Error" });
           }
         }
+    },
+    addSubject: async(req,res)=>{
+      const {email, subjectCode} = req.body;
+      try {
+        await userModel.addSubject(subjectCode,email);
+        res.status(200).json(await userModel.findByEmail(email))
+      } catch (error) {
+        res.status(400).json({message: error.message})
       }
+    }
 }
 
 module.exports = userController;

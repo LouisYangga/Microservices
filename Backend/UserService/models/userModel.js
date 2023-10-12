@@ -30,23 +30,41 @@ class User {
   setEnrolledStatus(isAdmitted) {
     this.isAdmitted = isAdmitted;
   }
+  addSubject(subjectCode){
+    this.enrolledSubject.push(subjectCode)
+  }
+  getSubjects(){
+    return this.enrolledSubject
+  }
 }
 const user1 = new User('user1@example.com', 'hashedPassword1', true);
 const user2 = new User('user2@example.com', 'hashedPassword2', false);
 var users = [user1,user2];
+
+function findById(id){
+  return users.find((user) => user.id === id);
+}
+function findByEmail(email){
+  return users.find((user) => user.getEmail() === email);
+}
+function subjectEnrolled(email, subjectCode){
+  const user = findByEmail(email)
+  subjects = user.getSubjects()
+  if(subjects.includes(subjectCode)){
+    return true
+  }else{
+    return false
+  }
   
+}
   module.exports = {
     getAll: () =>{
       return users;
     },
-    findByEmail: (email) => {
-      return users.find((user) => user.getEmail() === email);
-    },
-    findById: (id) => {
-      return users.find((user) => user.id === id);
-    },
+    findByEmail,
+    findById,
     createUser: async(email, password) => {
-      const exist = await users.find((user) => user.getEmail() === email);
+      const exist = await findByEmail(email)
       if(exist){
         throw new Error('User exists');
       }
@@ -58,14 +76,26 @@ var users = [user1,user2];
       const updated = users.filter((user)=> user.email !== emailToDelete );
       users = updated
     },
-    setAdmittance: (email, admittance) => {
-      const user = users.find((user) => user.getEmail() === email);
+    setAdmittance: async(email, admittance) => {
+      const user = await findByEmail(email)
       if (user) {
         user.setAdmittance(admittance);
         // Also update the users array to reflect the change
         user.isAdmitted = admittance;
       } else {
         throw new Error('User not found');
+      }
+    },
+    addSubject: async (subjectCode,email)=>{
+      const user = await findByEmail(email)
+      if(user){
+        if(await subjectEnrolled(email,subjectCode)){
+          throw new Error ("Already Enrolled")
+        }else{
+          await user.addSubject(subjectCode);
+        }
+      }else{
+         throw new Error("Student Not Found")
       }
     }
   };

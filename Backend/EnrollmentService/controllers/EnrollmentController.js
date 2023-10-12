@@ -1,6 +1,6 @@
 const utils = require('../../Shared/utils');
 const subjectModel = require('../models/EnrollmentModel')
-const axios = require("axios")
+const axios = require('axios')
 const admissionController = {
 
   createSubject:async (req,res)=>{
@@ -36,15 +36,18 @@ const admissionController = {
       const student = await utils.validateUser(email)
       if(student.isAdmitted){
         subjectModel.enrollStudent(student.email,subjectCode)
+        const response = await axios.post('http://localhost:3000/user/addSubject', req.body);
+        console.log(response.data)
+        if(response.status === 400){
+          throw new Error ("Unable to enroll student")
+        }
         res.status(200).json({meesage: "Student enrolled successfully"})
       }else{  
         throw new Error ("Unable to enroll student")
       }
-      
     } catch (error) {
       res.status(400).json({ message: error.message }); // Return the custom error message
     }
-
   }
 
 }

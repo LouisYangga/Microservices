@@ -6,11 +6,11 @@ COPY package*.json ./
 
 RUN npm install 
 
-COPY ./AdmissionService .
+COPY AdmissionService/ /app/AdmissionService/
 
-COPY ../Shared /app/Shared/
+COPY ./Shared /app/Shared/
 
-COPY ./AdmissionService/config/config.js .
+# COPY ./AdmissionService/config/config.js .
 RUN node -e "const config = require('./AdmissionService/config/config'); console.log('PORT=' + config.port);" > .env
 # Expose the port defined by the PORT environment variable
 EXPOSE $PORT

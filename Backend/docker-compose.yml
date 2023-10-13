@@ -10,8 +10,8 @@ services:
 
   admission_service:
     build: 
-      context: ./AdmissionService
-      dockerfile: ./AdmissionService/Dockerfile.admission
+      context: .
+      dockerfile: ./AdmissionService/Dockerfile
     volumes:
       - ./AdmissionService:/app
     command: ["npm", "start"]

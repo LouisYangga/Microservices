@@ -64,8 +64,13 @@ module.exports = {
         if(!subject){
             throw new Error ("Unable to find Subject")
         }
-        subject.addStudent(studentsEmail)
-
+        const students = subject.getStudents()
+        const exists = students.includes(studentsEmail)
+        if(!exists){
+            subject.addStudent(studentsEmail)
+        }else{
+            throw new Error('Student already Enrolled')
+        }
     }
     // updateAdmission:async(id, major, degree, commencement)=>{
     //     const admission = await findAdmission(id);

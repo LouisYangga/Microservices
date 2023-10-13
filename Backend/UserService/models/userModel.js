@@ -36,6 +36,9 @@ class User {
   getSubjects(){
     return this.enrolledSubject
   }
+  updateSubject(subjectList){
+    this.enrolledSubject = subjectList
+  }
 }
 const user1 = new User('user1@example.com', 'hashedPassword1', true);
 const user2 = new User('user2@example.com', 'hashedPassword2', false);
@@ -94,6 +97,14 @@ function subjectEnrolled(email, subjectCode){
         }else{
           await user.addSubject(subjectCode);
         }
+      }else{
+         throw new Error("Student Not Found")
+      }
+    },
+    removeSubjects: async(email)=>{
+      const user = await findByEmail(email)
+      if(user){
+        await user.updateSubject([])
       }else{
          throw new Error("Student Not Found")
       }

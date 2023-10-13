@@ -83,6 +83,15 @@ const userController = {
         // Handle errors from the first function
         res.status(400).json({ message: error.message });
       }
+    },
+    removeSubject: async(req,res)=>{
+      const { email } = req.body;
+      try {
+        await userModel.removeSubjects(email)
+        res.status(200).json({message:"Subject successfully removed"})
+      } catch (error) {
+        res.status(400).json({message: error.message})
+      }
     }
     
 }

@@ -27,7 +27,17 @@ const utils = {
             console.error('An error occurred:', error);
             return false; // Return false to indicate failure
         }
+    },
+    removeSubject: async( email)=>{
+        const body = {email:email}
+        try {
+            const response = await axios.post('http://localhost:3000/user/removeSubject',body)
+            return response.data
+        } catch (error) {
+            throw new Error('Unable to remove subject')
+        }
     }
+
 
 }
 module.exports = utils

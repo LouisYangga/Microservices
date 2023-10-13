@@ -1,5 +1,6 @@
 const utils = require('../../Shared/utils')
 const admissionModel = require('../models/admissionModel')
+const axios = require('axios')
 const admissionController = {
 
     createAdmission: async (req, res) => {
@@ -51,6 +52,7 @@ const admissionController = {
         const {email} = req.body;
         admissionModel.deleteAdmission(email)
         await utils.setUserAdmittance(email,false)
+        await utils.removeSubject(email)
         res.status(200).json({message: 'Admission deleted'})
     }
 }

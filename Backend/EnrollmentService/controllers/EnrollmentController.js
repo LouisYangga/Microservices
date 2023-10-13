@@ -34,13 +34,14 @@ const admissionController = {
     try {
       const {email,subjectCode} = req.body;
       const student = await utils.validateUser(email)
+      //need to check whether student is enrolled or not
       if(student.isAdmitted){
-        subjectModel.enrollStudent(student.email,subjectCode)
+        var enrollStudent = await subjectModel.enrollStudent(student.email,subjectCode)
         const response = await axios.post('http://localhost:3000/user/addSubject', req.body);
         if(response.status === 400){
           throw new Error ("Unable to enroll student")
         }
-        res.status(200).json({meesage: "Student enrolled successfully"})
+        res.status(200).json({message: "Student enrolled successfully"})
       }else{  
         throw new Error ("Unable to enroll student")
       }

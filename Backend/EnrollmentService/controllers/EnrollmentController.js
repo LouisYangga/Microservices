@@ -1,5 +1,5 @@
 const utils = require('../../Shared/utils');
-const subjectModel = require('../models/EnrollmentModel')
+const subjectModel = require('../models/subjectModel')
 const axios = require('axios')
 const admissionController = {
 
@@ -18,8 +18,9 @@ const admissionController = {
     const subject = await subjectModel.findSubject(code)
     if(!subject){
       res.status(400).json({message:"Subject Not Found"})
+    }else{
+      res.status(200).json(subject)
     }
-    res.status(200).json(subject)
   },
   getStudents:async(req,res)=>{
     const code = req.params.subjectCode;
@@ -27,7 +28,7 @@ const admissionController = {
     if(!subject){
       res.status(400).json({message:"Subject Not Found"})
     }
-    const students = await subject.getStudents();
+    const students =  subject.students;
     res.status(200).json(students)
   },
   enrollStudent:async(req,res)=>{
@@ -48,6 +49,10 @@ const admissionController = {
     } catch (error) {
       res.status(400).json({ message: error.message }); // Return the custom error message
     }
+  },
+  getSubjects:async(req,res)=>{
+    const subjects = await subjectModel.getSubjects()
+    res.status(200).json(subjects)
   }
 
 }

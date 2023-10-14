@@ -1,86 +1,84 @@
 const utils = require('../../Shared/utils')
-class admissionFile {
-    static admissionId = 1001
-    constructor(studentEmail, major, degree, commencement){
-        this.admissionId = admissionFile.admissionId++;
-        this.studentEmail = studentEmail;
-        this.major = major
-        this.degree = degree
-        this.commencement = commencement
-    }
-    // Getter and setter methods 
-    getAdmissionId(){
-        return this.admissionId;
-    }
-    getStudentEmail(){
-        return this.studentEmail;
-    }
-    getMajor() {
-        return this.major;
-    }
-    setMajor(newMajor) {
-        this.major = newMajor;
-    }
-    getDegree() {
-        return this.degree;
-    }
-    setDegree(newDegree) {
-        this.degree = newDegree;
-    }
-    getCommencement() {
-        return this.commencement;
-    }
+const admission = require('./admissionSchema')
 
-    setCommencement(newCommencement) {
-        this.commencement = newCommencement;
+const findByEmail = async(email)=>{
+    try {
+        const file = await admission.findOne({ studentEmail:email });
+        return file
+      } catch (error) {
+        throw new Error(error.message);
+      }
+};
+const createAdmission = async(studentEmail, major, degree, commencement)=>{
+    // Validate the user before creating the admissionFile object
+    try {
+        const userData = await utils.validateUser(studentEmail);
+        if (userData) {
+        // Find the last used admissionId and increment it by 1
+        const lastAdmission = await admission.findOne().sort({ admissionId: -1 }).exec();
+        let newAdmissionId = 1001;
+        if (lastAdmission) {
+            newAdmissionId = lastAdmission.admissionId + 1;
+        }
+        // User is valid, create the admissionFile object
+        const newAdmission = {
+            admissionId:newAdmissionId,
+            studentEmail,
+            major,
+            degree,
+            commencement
+        }
+        await admission.create(newAdmission)
+        .then(newAdmission => {  })
+        .catch(error => {
+          console.error('Error creating admission file:', error);
+          throw new Error(error);
+        });
+        // Continue with your logic using the admission object
+        return newAdmission
+        } else {
+            throw new Error('User not found')
+        }
+    } catch (error) {
+        console.error('User validation error:', error);
     }
+};
+const findAdmission = async(id)=>{
+    try {
+        return await admission.findOne({ admissionId:id });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+};
+const updateAdmission = async(id, major, degree, commencement)=>{
+    try {
+        // Find the admission by ID and update its properties
+        const updatedAdmission = await admission.findOneAndUpdate(
+          { admissionId: id },
+          {
+            major,
+            degree,
+            commencement,
+          },
+          { new: true } // To return the updated document
+        );
+    
+        if (!updatedAdmission) {
+          throw new Error('Admission File Not Found');
+        }
+        return updatedAdmission;
+      } catch (error) {
+        console.error('Error updating admission:', error);
+        throw error;
+      }
+};
+const deleteAdmission = async(studentEmail)=>{
+    await admission.deleteOne({studentEmail:studentEmail})
 }
-const file1 = new admissionFile('user1@example.com','Computer Science','Undergraduate','Spring')
-var files = [file1]
-
 module.exports = {
-
-    createAdmission: async(studentEmail, major, degree, commencement)=>{
-        // Validate the user before creating the admissionFile object
-        try {
-            const userData = await utils.validateUser(studentEmail);
-            console.log(userData)
-            if (userData) {
-            // User is valid, create the admissionFile object
-            const admission = new admissionFile(studentEmail, major, degree, commencement);
-            files.push(admission)
-            // Continue with your logic using the admission object
-            return admission
-            } else {
-                throw new Error('User not found')
-            }
-        } catch (error) {
-            console.error('User validation error:', error);
-        }
-    },
-    findAdmission:(id)=>{
-        const file = files.find((file)=> file.getAdmissionId() === parseInt(id))
-        return file
-    },
-    findByEmail:(email)=>{
-        const file=  files.find((file)=> file.getStudentEmail() === email)
-        return file
-    }
-    ,
-    updateAdmission:async(id, major, degree, commencement)=>{
-        const admission = await findAdmission(id);
-        if(!admission){
-            throw new Error('Admission File Not Found')
-        }else{
-            admission.setMajor(major)
-            admission.setDegree(degree)
-            admission.setCommencement(commencement)
-        }
-    },
-    deleteAdmission:(studentEmail)=>{
-        const updated = files.filter((file)=> file.studentEmail !==studentEmail);
-        console.log(updated)
-        files = updated
-    } 
-
+    createAdmission,
+    findAdmission,
+    findByEmail,
+    updateAdmission,
+    deleteAdmission
 }

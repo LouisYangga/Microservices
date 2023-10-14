@@ -6,7 +6,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
   });
-
+require('../db/db')
 const config= require('../config/config')
 const port = config.port;
 const routes = require('../routes/routes');

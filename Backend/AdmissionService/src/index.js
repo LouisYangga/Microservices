@@ -10,6 +10,7 @@ app.use((req, res, next) => {
 const config= require('../config/config')
 const port = config.port;
 const routes = require('../routes/routes');
+require('../db/db');
 app.use(express.json());
 app.use('/admission', routes)
 app.get('/', (req, res) => {

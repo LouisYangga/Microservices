@@ -9,7 +9,6 @@ router.post('/find',userController.findByEmail)
 router.post('/addSubject',userController.addSubject)
 router.post('/removeSubject',userController.removeSubject)
 router.get('/all',userController.getAllUser)
-router.get('/:id',userController.getByID)
 router.delete('/delete', userController.deleteUser)
 router.put('/admit',userController.setAdmittance)
 module.exports = router;

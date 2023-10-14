@@ -1,5 +1,4 @@
-const userModel = require("../models/userModel");
-
+const userModel = require("../models/userModel.js");
 const userController = {
 
     loginUser: (async(req,res,next)=>{
@@ -19,37 +18,31 @@ const userController = {
           }
     }),
     findByEmail: (async(req,res,next)=>{
+      try {
         const {email} = req.body;
         const user = await userModel.findByEmail(email);
         if(user){
             res.status(200).json(user);
         }else{
-            const error = new Error('User Not Found');
-            error.status = 404; // Set the HTTP status code to 404 (Not Found)
-            next(error); // Pass the error to the error handling middleware
+            throw new Error('User Not Found');
         }
+      } catch (error) {
+        res.status(404).json({message:error.message})
+      }
+
     }),
     createUser: (async(req,res)=>{
         const{email, password} = req.body;
         const exist = await userModel.findByEmail(email);
         if(!exist){
             const user = await userModel.createUser(email,password)
-            console.log(email + ' user created')
             res.status(200).json(user);
         }else{
             res.status(400).json({message:"Email already Exists"})
         }
     }),
     getAllUser: (async(req,res)=>{
-        res.status(200).json(userModel.getAll())
-    }),
-    getByID: (async (req,res)=>{
-      const id = req.params.id
-      const user = await userModel.findById(parseInt(id))
-      if(!user){
-        res.status(400).json({message:"User Not Found"})
-      }
-      res.status(200).json(user)
+        res.status(200).json(await userModel.getAll())
     }),
     deleteUser: (async(req,res)=>{
         const{email} = req.body;
@@ -92,8 +85,7 @@ const userController = {
       } catch (error) {
         res.status(400).json({message: error.message})
       }
-    }
-    
+    },
 }
 
 module.exports = userController;

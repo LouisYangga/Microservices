@@ -1,6 +1,5 @@
 const utils = require('../../Shared/utils')
 const admissionModel = require('../models/admissionModel')
-const axios = require('axios')
 const admissionController = {
 
     createAdmission: async (req, res) => {

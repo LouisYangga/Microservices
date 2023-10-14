@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
-  id: Number,
   email: String,
   password: String,
   isAdmitted: Boolean,

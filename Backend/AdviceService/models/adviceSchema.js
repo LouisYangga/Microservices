@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
 
-const studentDetailsSchema = new mongoose.Schema({
-  email: String,
-  isAdmitted: Boolean,
-  enrolledSubject: [String]
-});
 
 const adviceSchema = new mongoose.Schema({
+  id:Number,
   studentEmail: String,
-  studentDetails: studentDetailsSchema,
   topic: String
 });
 

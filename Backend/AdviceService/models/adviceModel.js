@@ -3,6 +3,7 @@ const Advice = require('./adviceSchema')
 
 const findByEmail = async(studentEmail)=>{
     const result = await Advice.findOne({studentEmail})
+    console.log(result)
     return result
 }
 const createAdviceRequest = async(studentEmail, topic)=>{
@@ -26,8 +27,12 @@ const createAdviceRequest = async(studentEmail, topic)=>{
 const deleteRequest = async(studentEmail)=>{
     await Advice.deleteOne({studentEmail})
 }
+const getAll = async()=>{
+    return await Advice.find({})
+}
 module.exports = {
     findByEmail,
     createAdviceRequest,
-    deleteRequest
+    deleteRequest,
+    getAll
 }

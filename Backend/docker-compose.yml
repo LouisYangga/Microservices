@@ -1,3 +1,4 @@
+version: '3'
 services:
   user_service:
     build: ./UserService
@@ -6,6 +7,8 @@ services:
     command: ["npm", "start"]
     ports:
       - "3000:3000"
+    networks:
+      - microservices
 
   admission_service:
     build: ./AdmissionService
@@ -14,6 +17,8 @@ services:
     command: ["npm", "start"]
     ports:
       - "3001:3001"
+    networks:
+      - microservices
 
   advice_service:
     build: ./AdviceService
@@ -22,6 +27,9 @@ services:
     command: ["npm", "start"]
     ports:
       - "3003:3003"
+    networks:
+      - microservices
+
   enrollment_service:
     build: ./EnrollmentService
     volumes:
@@ -29,4 +37,8 @@ services:
     command: ["npm", "start"]
     ports:
       - "3002:3002"
+    networks:
+      - microservices
 
+networks:
+  microservices:

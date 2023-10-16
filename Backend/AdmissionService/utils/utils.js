@@ -4,17 +4,16 @@ const utils = {
     validateUser: async (email) => {
         const body = { email: email };
         try {
-            const response = await axios.post('http://localhost:3000/user/find', body);
-            return response.data; // Return the response data here
+            const response = await axios.post('http://user_service:3000/user/find', body);
+            return response.data
         } catch (error) {
-            console.error('User Not Found');
-            throw new Error('User Not Found'); // You might want to rethrow the error for handling it elsewhere
+            throw new Error(error); // You might want to rethrow the error for handling it elsewhere
         }
     },
     setUserAdmittance: async(email,status)=>{
         const body = { admittance: status, email: email };
         try {
-            const response = await axios.put('http://localhost:3000/user/admit', body);
+            const response = await axios.put('http://user_service:3000/user/admit', body);
             // Check if the status code is 200
             if (response.status === 200) {
                 console.log('Update Admittance Request was successful.');
@@ -31,7 +30,7 @@ const utils = {
     removeSubject: async( email)=>{
         const body = {email:email}
         try {
-            const response = await axios.post('http://localhost:3000/user/removeSubject',body)
+            const response = await axios.post('http://user_service:3000/user/removeSubject',body)
             return response.data
         } catch (error) {
             throw new Error('Unable to remove subject')

@@ -15,7 +15,7 @@ services:
     ports:
       - "3001:3001"
 
-  advice_Service:
+  advice_service:
     build: ./AdviceService
     volumes:
       - ./AdviceService:/app

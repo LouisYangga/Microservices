@@ -1,4 +1,3 @@
-const utils = require('../../Shared/utils')
 const Advice = require('./adviceSchema')
 
 const findByEmail = async(studentEmail)=>{

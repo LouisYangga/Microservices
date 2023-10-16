@@ -1,4 +1,4 @@
-const utils = require('../../Shared/utils');
+const utils = require('../utils/utils');
 const subjectModel = require('../models/subjectModel')
 const axios = require('axios')
 const admissionController = {

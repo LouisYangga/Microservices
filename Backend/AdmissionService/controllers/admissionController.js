@@ -1,4 +1,4 @@
-const utils = require('../../Shared/utils')
+const utils = require('../utils/utils')
 const admissionModel = require('../models/admissionModel')
 const admissionController = {
 

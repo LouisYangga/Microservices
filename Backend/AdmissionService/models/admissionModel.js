@@ -1,4 +1,4 @@
-const utils = require('../../Shared/utils')
+const utils = require('../utils/utils')
 const admission = require('./admissionSchema')
 
 const findByEmail = async(email)=>{

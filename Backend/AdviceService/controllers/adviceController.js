@@ -1,4 +1,4 @@
-const utils = require('../../Shared/utils');
+const utils = require('../utils/utils');
 const adviceModel = require('../models/adviceModel')
 var nodemailer = require('nodemailer');
 

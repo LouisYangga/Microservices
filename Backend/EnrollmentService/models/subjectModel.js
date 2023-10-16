@@ -1,4 +1,4 @@
-const utils = require('../../Shared/utils')
+const utils = require('../utils/utils')
 const Subject = require('./subjectSchema')
 const findSubject = async(subjectCode)=>{
     try {

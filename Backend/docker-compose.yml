@@ -22,7 +22,7 @@ services:
     command: ["npm", "start"]
     ports:
       - "3003:3003"
-  EnrollmentService:
+  enrollment_service:
     build: ./EnrollmentService
     volumes:
       - ./EnrollmentService:/app

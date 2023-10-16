@@ -38,7 +38,7 @@ const admissionController = {
       //need to check whether student is enrolled or not
       if(student.isAdmitted){
         var enrollStudent = await subjectModel.enrollStudent(student.email,subjectCode)
-        const response = await axios.post('http://localhost:3000/user/addSubject', req.body);
+        const response = await axios.post('http://user_service:3000/user/addSubject', req.body);
         if(response.status === 400){
           throw new Error ("Unable to enroll student")
         }
@@ -53,6 +53,20 @@ const admissionController = {
   getSubjects:async(req,res)=>{
     const subjects = await subjectModel.getSubjects()
     res.status(200).json(subjects)
+  },
+  removeSudent:async(req,res)=>{
+    const {subjectCode, studentEmail} = req.body
+    const student = await utils.validateUser(studentEmail)
+    try {
+      if(student.isAdmitted){
+        await subjectModel.removeStudent(subjectCode,studentEmail)
+        res.status(200).json({message:"Student Removed"})
+      }else{
+        throw new Error ("Student not admitted")
+      }
+    } catch (error) {
+      res.status(400).json({message:error.message})
+    }
   }
 
 }

@@ -55,11 +55,27 @@ const enrollStudent = async(studentEmail, subjectCode)=>{
 const getSubjects = async()=>{
     return await Subject.find({})
 };
+const removeStudent = async(subjectCode, studentEmail)=>{
+    var subject = await findSubject(subjectCode);
+    if(!subject){
+        throw new Error ("Unable to find Subject")
+    }
+    const students = subject.students
+    const exists = students.includes(studentEmail)
+    if(exists){
+        const updateCriteria = { subjectCode };
+        const update = { $pull: { students: studentEmail } };
+        await Subject.findOneAndUpdate(updateCriteria, update, { new: true });
+    }else{
+        throw new Error('Student not enrolled')
+    }
+}
 module.exports = {
     findSubject,
     createSubject,
     findByName,
     getStudents,
     enrollStudent,
-    getSubjects
+    getSubjects,
+    removeStudent
 }

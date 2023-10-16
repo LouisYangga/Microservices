@@ -7,7 +7,6 @@ services:
     ports:
       - "3000:3000"
 
-
   admission_service:
     build: ./AdmissionService
     volumes:
@@ -16,10 +15,18 @@ services:
     ports:
       - "3001:3001"
 
-
-  # enrollment_service:
-  #   build: ./EnrollmentService
-  #   volumes:
-  #     - ./EnrollmentService:/app
-  #   command: ["npm", "start"]
+  advice_Service:
+    build: ./AdviceService
+    volumes:
+      - ./AdviceService:/app
+    command: ["npm", "start"]
+    ports:
+      - "3003:3003"
+  EnrollmentService:
+    build: ./EnrollmentService
+    volumes:
+      - ./EnrollmentService:/app
+    command: ["npm", "start"]
+    ports:
+      - "3002:3002"
 

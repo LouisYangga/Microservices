@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const url = 'mongodb://127.0.0.1/advice';
+const url = 'mongodb+srv://microservices:microservices123@microservices.shsnvxr.mongodb.net/';
 const connectionParams = {
     useNewUrlParser: true,
     useUnifiedTopology: true,

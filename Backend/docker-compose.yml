@@ -10,7 +10,7 @@ services:
 
   admission_service:
     build: 
-      context: .
+      context: ./AdmissionService
       dockerfile: ./AdmissionService/Dockerfile
     volumes:
       - ./AdmissionService:/app

@@ -29,10 +29,10 @@ const adviceController = {
     const {studentEmail, message, topic} = req.body;
     try {
       await utils.validateUser(studentEmail);
-      const exists = await adviceModel.findByEmail(studentEmail)
-      if(!exists){
-        throw new Error('There is no requests from student')
-      }
+      // const exists = await adviceModel.findByEmail(studentEmail)
+      // if(!exists){
+      //   throw new Error('There is no requests from student')
+      // }
       var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {

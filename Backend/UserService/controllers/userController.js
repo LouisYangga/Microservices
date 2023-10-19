@@ -86,6 +86,22 @@ const userController = {
         res.status(400).json({message: error.message})
       }
     },
+    getSubjects: async(req,res)=>{
+      const {email} = req.body
+      try {
+        const user = await userModel.findByEmail(email);
+        if(user){
+          res.status(200).json({
+            email:email,
+            enrolledSubject: user.enrolledSubject
+          });
+        }else{
+            throw new Error('User Not Found');
+        }  
+      } catch (error) {
+        
+      }
+    }
 }
 
 module.exports = userController;
